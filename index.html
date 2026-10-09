@@ -13,9 +13,20 @@
     </header>
 
     <section class="streak-card" aria-live="polite">
-      <span class="streak-fire" aria-hidden="true">🔥</span>
-      <span class="streak-number" id="streak-number">0</span>
-      <span class="streak-label" id="streak-label">días seguidos</span>
+      <div class="streak-current">
+        <span class="streak-title">Racha actual</span>
+        <div class="streak-current-main">
+          <span class="streak-fire" aria-hidden="true">🔥</span>
+          <span class="streak-number" id="streak-number">0</span>
+        </div>
+        <span class="streak-label" id="streak-label">días seguidos</span>
+      </div>
+      <div class="streak-best" id="streak-best" hidden>
+        <span class="streak-title">Mejor racha</span>
+        <span class="streak-trophy" aria-hidden="true">🏆</span>
+        <span class="streak-best-number" id="streak-best-number">0</span>
+        <span class="streak-best-label" id="streak-best-label">días seguidos</span>
+      </div>
     </section>
 
     <section class="card">

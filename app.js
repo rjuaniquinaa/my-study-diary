@@ -71,6 +71,40 @@ function calculateStreak(sessions) {
   return streak;
 }
 
+// Devuelve true si "b" es el día siguiente exacto a "a".
+// Se avanza el día con setDate() sobre una fecha local: así el cálculo
+// es correcto aunque el día tenga 23 o 25 horas (cambio de horario).
+function isNextDay(a, b) {
+  const [aYear, aMonth, aDay] = a.split("-").map(Number);
+  const next = new Date(aYear, aMonth - 1, aDay);
+  next.setDate(next.getDate() + 1);
+  return toLocalDateString(next) === b;
+}
+
+// La mejor racha es la tanda más larga de días consecutivos con sesión
+// en todo el historial. Se calcula siempre a partir de los datos
+// guardados (nada se guarda aparte) y las fechas futuras no cuentan,
+// igual que en la racha actual.
+function calculateBestStreak(sessions) {
+  const today = todayString();
+
+  const days = [...new Set(sessions.map((session) => session.date))]
+    .filter((date) => date <= today)
+    .sort();
+
+  let best = 0;
+  let current = 0;
+  let previous = null;
+
+  for (const day of days) {
+    current = previous !== null && isNextDay(previous, day) ? current + 1 : 1;
+    best = Math.max(best, current);
+    previous = day;
+  }
+
+  return best;
+}
+
 // --- Referencias del DOM ---
 
 const form = document.getElementById("session-form");
@@ -79,6 +113,9 @@ const topicInput = document.getElementById("topic");
 const minutesInput = document.getElementById("minutes");
 const streakNumber = document.getElementById("streak-number");
 const streakLabel = document.getElementById("streak-label");
+const streakBest = document.getElementById("streak-best");
+const streakBestNumber = document.getElementById("streak-best-number");
+const streakBestLabel = document.getElementById("streak-best-label");
 const list = document.getElementById("session-list");
 const emptyMessage = document.getElementById("empty-message");
 
@@ -90,7 +127,13 @@ function render() {
   // Racha
   const streak = calculateStreak(sessions);
   streakNumber.textContent = streak;
-  streakLabel.textContent = streak === 1 ? "día seguido" : "días seguidos";
+  streakLabel.textContent = streak === 1 ? "día" : "días";
+
+  // Mejor racha: se oculta si todavía no hay sesiones
+  const best = calculateBestStreak(sessions);
+  streakBest.hidden = best === 0;
+  streakBestNumber.textContent = best;
+  streakBestLabel.textContent = best === 1 ? "día" : "días";
 
   // Lista: de la sesión más reciente a la más antigua
   const sorted = [...sessions].sort((a, b) => {
