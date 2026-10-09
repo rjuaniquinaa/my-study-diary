@@ -1,34 +1,46 @@
-# AGENTS.md
-
-## Project
-
-"Diario de Estudio" — dependency-free static site that logs study sessions and shows a streak. Not a git repo: no package manager, no build, no tests. Exactly three files: `index.html` (markup), `styles.css` (styling), `app.js` (all logic).
-
-## Hard constraints (from the project spec — do not violate)
-
-- **Exactly 3 files.** No frameworks, libraries, npm, bundlers or dev servers. Don't add a 4th file (README, package.json, config…) unless asked.
-- Must run by double-clicking `index.html` (`file://`); localStorage works there, so no server is ever needed.
-- All UI text and code comments in Spanish.
-- Ship only what was explicitly requested; no extra features (e.g. no delete/edit) unless asked.
-
-## Verify changes
-
-No lint/test tooling exists. Use:
-
-1. `node --check app.js` — syntax check.
-2. `open index.html` — manual check: submit the form, confirm the streak, reload to confirm persistence.
-
-## Dates & streak (the tricky core)
-
-- **Local time only, never UTC.** Dates are stored as local `YYYY-MM-DD` via `toLocalDateString()`. Never parse with `new Date("YYYY-MM-DD")` (that parses as UTC); `formatDate()` splits the string manually for this reason.
-- Streak (`calculateStreak`): a day counts if it has ≥1 session; the streak ends today, or yesterday if today has no session yet — it stays alive until the day ends.
-
-## Data (localStorage)
-
-- Key: `diario-estudio-sesiones`. Changing it or the session shape `{ date, topic, minutes, createdAt }` silently discards existing user data.
-- `createdAt` exists only to break ties when sorting same-day sessions newest-first.
-
-## Gotchas
-
-- After `form.reset()`, re-set `dateInput.value = todayString()` — reset restores the HTML default, not "today".
-- Minutes are integers only (`min="1" step="1"`), validated both by HTML attributes and the JS submit guard; keep both in sync.
+# AGENTS.md — Diario de Estudio
+Web estática para registrar sesiones de estudio y motivarse viendo la racha de días
+seguidos. Proyecto didáctico: el código debe poder entenderlo alguien que empieza a
+programar.
+## Stack y estructura
+- HTML, CSS y JavaScript puros: sin frameworks, librerías, npm, bundler ni build.
+- `index.html` (estructura), `styles.css` (estilos), `app.js` (lógica y datos).
+- Debe funcionar abriendo `index.html` con doble clic (`file://`): nada de módulos ES
+(`type="module"`), `fetch` a archivos locales ni nada que requiera servidor.
+## Convenciones
+- Textos de la interfaz en español.
+- Código simple, nombres descriptivos y comentarios solo donde aporten.
+- Diseño limpio y responsive; cualquier pantalla nueva debe verse bien en el móvil.
+## Datos
+- localStorage, clave `diario-estudio-sesiones`: array de `{ date: "AAAA-MM-DD", topic,
+minutes }`.
+- Si cambias la forma de los datos, mantén compatibilidad con lo ya guardado o el usuario
+perderá sus sesiones.
+## Fechas y racha (fácil equivocarse)
+- Trabaja siempre con la fecha local del usuario. Nunca uses `toISOString()` ni `new
+Date("AAAA-MM-DD")`: se interpretan en UTC y desplazan el día.
+- Racha = días consecutivos con al menos 1 sesión que terminan hoy. Si hoy no hay sesión
+pero ayer sí, la racha sigue viva y se cuenta desde ayer.
+- Varias sesiones el mismo día cuentan como un solo día. Las fechas futuras no suman.
+## Forma de trabajar
+- Haz solo lo que se pide: no añadas funcionalidades por tu cuenta.
+- Cambios pequeños y enfocados; no reescribas lo que ya funciona.
+- Al terminar, resume qué has cambiado y cualquier decisión que deba revisar.
+## Memoria
+- Al empezar, lee `MEMORY.md` para conocer el estado del proyecto y las decisiones
+tomadas.
+- Al terminar una tarea, actualízalo: estado actual, decisiones importantes (con su
+porqué) y errores a evitar.
+- Mantenlo breve (máximo ~50 líneas): resume o elimina lo que ya no aporte.
+- Si algo se convierte en una regla permanente, propón moverlo a `AGENTS.md` en lugar de
+dejarlo en la memoria.
+- No guardes nunca datos sensibles (claves, tokens, datos personales).
+## Límites
+- ✅ Siempre: respetar las reglas de fechas y racha, mantener los textos en español.
+- ✅ Siempre: actualizar `MEMORY.md` al terminar cada tarea.
+- ⚠ Pregunta antes: crear archivos nuevos, cambiar el formato de los datos guardados.
+- 🚫 Nunca: añadir dependencias, frameworks o un paso de build.
+## Verificación
+- No hay tests ni lint. Probar abriendo `index.html` en el navegador.
+- Para empezar de cero: DevTools → Application → Local Storage → borrar la clave
+`diario-estudio-sesiones`.
