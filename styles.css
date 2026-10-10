@@ -113,6 +113,49 @@ body {
   color: #9a3412;
 }
 
+/* --- Minutos de la semana --- */
+
+.week-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.week-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.week-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.week-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.week-total {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.week-number {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.week-unit {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
 /* --- Tarjetas --- */
 
 .card {

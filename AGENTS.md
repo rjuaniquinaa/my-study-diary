@@ -24,6 +24,8 @@ pero ayer sí, la racha sigue viva y se cuenta desde ayer.
 - Varias sesiones el mismo día cuentan como un solo día. Las fechas futuras no suman.
 - La mejor racha se recalcula en cada render a partir de las sesiones guardadas (no se
   guarda aparte en localStorage) y también excluye fechas futuras.
+- El total de minutos de la semana suma de lunes a domingo en fecha local (excluye
+  fechas futuras) y también se recalcula en cada render, sin guardarse.
 ## Forma de trabajar
 - Haz solo lo que se pide: no añadas funcionalidades por tu cuenta.
 - Cambios pequeños y enfocados; no reescribas lo que ya funciona.

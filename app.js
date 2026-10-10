@@ -105,6 +105,37 @@ function calculateBestStreak(sessions) {
   return best;
 }
 
+// --- Minutos de la semana ---
+
+// Devuelve el lunes de la semana a la que pertenece "date" (fecha local).
+// Se usa setDate() sobre una fecha local: correcto aunque el día dure
+// 23 o 25 horas (cambio de horario) y sin tocar UTC.
+function getMonday(date) {
+  const day = date.getDay(); // 0 = domingo ... 6 = sábado
+  const offset = (day + 6) % 7; // lunes => 0, domingo => 6
+  const monday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  monday.setDate(monday.getDate() - offset);
+  return monday;
+}
+
+// Total de minutos estudiados de lunes a hoy. Las fechas futuras no
+// cuentan, igual que en las rachas.
+function calculateWeeklyMinutes(sessions) {
+  const monday = toLocalDateString(getMonday(new Date()));
+  const today = todayString();
+
+  let total = 0;
+  for (const session of sessions) {
+    if (session.date >= monday && session.date <= today) {
+      const minutes = Number(session.minutes);
+      if (Number.isFinite(minutes) && minutes > 0) {
+        total += minutes;
+      }
+    }
+  }
+  return total;
+}
+
 // --- Referencias del DOM ---
 
 const form = document.getElementById("session-form");
@@ -116,6 +147,8 @@ const streakLabel = document.getElementById("streak-label");
 const streakBest = document.getElementById("streak-best");
 const streakBestNumber = document.getElementById("streak-best-number");
 const streakBestLabel = document.getElementById("streak-best-label");
+const weekMinutes = document.getElementById("week-minutes");
+const weekUnit = document.getElementById("week-unit");
 const list = document.getElementById("session-list");
 const emptyMessage = document.getElementById("empty-message");
 
@@ -134,6 +167,11 @@ function render() {
   streakBest.hidden = best === 0;
   streakBestNumber.textContent = best;
   streakBestLabel.textContent = best === 1 ? "día" : "días";
+
+  // Minutos de la semana (lunes a hoy)
+  const weeklyMinutes = calculateWeeklyMinutes(sessions);
+  weekMinutes.textContent = weeklyMinutes;
+  weekUnit.textContent = weeklyMinutes === 1 ? "min estudiado" : "min estudiados";
 
   // Lista: de la sesión más reciente a la más antigua
   const sorted = [...sessions].sort((a, b) => {
