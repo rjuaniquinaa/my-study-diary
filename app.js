@@ -136,6 +136,24 @@ function calculateWeeklyMinutes(sessions) {
   return total;
 }
 
+// --- Días estudiados este mes ---
+
+// Días con al menos una sesión del mes actual (fecha local). Las fechas
+// futuras no cuentan, igual que en las rachas. Comparar el prefijo
+// "AAAA-MM" sobre el texto evita convertir nada a Date: sin riesgo UTC.
+function calculateMonthlyStudyDays(sessions) {
+  const today = todayString();
+  const monthPrefix = today.slice(0, 7); // "AAAA-MM"
+
+  const days = new Set();
+  for (const session of sessions) {
+    if (session.date.startsWith(monthPrefix) && session.date <= today) {
+      days.add(session.date);
+    }
+  }
+  return days.size;
+}
+
 // --- Referencias del DOM ---
 
 const form = document.getElementById("session-form");
@@ -149,6 +167,8 @@ const streakBestNumber = document.getElementById("streak-best-number");
 const streakBestLabel = document.getElementById("streak-best-label");
 const weekMinutes = document.getElementById("week-minutes");
 const weekUnit = document.getElementById("week-unit");
+const monthDays = document.getElementById("month-days");
+const monthUnit = document.getElementById("month-unit");
 const list = document.getElementById("session-list");
 const emptyMessage = document.getElementById("empty-message");
 
@@ -172,6 +192,11 @@ function render() {
   const weeklyMinutes = calculateWeeklyMinutes(sessions);
   weekMinutes.textContent = weeklyMinutes;
   weekUnit.textContent = weeklyMinutes === 1 ? "min estudiado" : "min estudiados";
+
+  // Días estudiados este mes
+  const monthlyDays = calculateMonthlyStudyDays(sessions);
+  monthDays.textContent = monthlyDays;
+  monthUnit.textContent = monthlyDays === 1 ? "día estudiado" : "días estudiados";
 
   // Lista: de la sesión más reciente a la más antigua
   const sorted = [...sessions].sort((a, b) => {

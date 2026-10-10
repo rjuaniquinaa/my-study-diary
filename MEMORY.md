@@ -4,7 +4,7 @@ aporte.
 
 ## Estado actual
 - v1 funcionando: registrar sesiones (fecha, tema, minutos), racha actual, mejor racha,
-  total de minutos de la semana y lista de sesiones (de más reciente a más antigua).
+  minutos de la semana, días del mes y lista de sesiones (de más reciente a más antigua).
 - Datos en localStorage (clave `diario-estudio-sesiones`), sin backend ni dependencias.
 
 ## Decisiones (y por qué)
@@ -16,6 +16,8 @@ aporte.
   se oculta si no hay sesiones.
 - Total semanal = lunes a domingo en fecha local, excluye futuras y se calcula en cada
   render: mismas reglas que las rachas y ningún dato nuevo en localStorage.
+- Días del mes = días únicos con sesión con el prefijo "AAAA-MM" del mes actual;
+  comparar texto local evita por completo Date/UTC y excluye futuras.
 
 ## Aprendizajes y errores a evitar
 - Al probar la lógica en node, usar helpers explícitos de fecha (hace N días / dentro

@@ -113,44 +113,51 @@ body {
   color: #9a3412;
 }
 
-/* --- Minutos de la semana --- */
+/* --- Tarjetas de resumen: esta semana y este mes --- */
 
-.week-card {
+.week-card,
+.month-card {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.week-icon {
+.week-icon,
+.month-icon {
   font-size: 1.75rem;
   line-height: 1;
 }
 
-.week-info {
+.week-info,
+.month-info {
   display: flex;
   flex-direction: column;
 }
 
-.week-title {
+.week-title,
+.month-title {
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--muted);
 }
 
-.week-total {
+.week-total,
+.month-total {
   display: flex;
   align-items: baseline;
   gap: 6px;
 }
 
-.week-number {
+.week-number,
+.month-number {
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--primary);
   line-height: 1.2;
 }
 
-.week-unit {
+.week-unit,
+.month-unit {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--muted);

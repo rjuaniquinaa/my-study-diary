@@ -26,6 +26,8 @@ pero ayer sí, la racha sigue viva y se cuenta desde ayer.
   guarda aparte en localStorage) y también excluye fechas futuras.
 - El total de minutos de la semana suma de lunes a domingo en fecha local (excluye
   fechas futuras) y también se recalcula en cada render, sin guardarse.
+- Los días estudiados del mes son días únicos con sesión del mes actual (se comparan el
+  prefijo "AAAA-MM" del texto local y excluyen fechas futuras), en cada render.
 ## Forma de trabajar
 - Haz solo lo que se pide: no añadas funcionalidades por tu cuenta.
 - Cambios pequeños y enfocados; no reescribas lo que ya funciona.
