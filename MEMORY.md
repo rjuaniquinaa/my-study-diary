@@ -28,6 +28,11 @@ aporte.
   autor ganan a las del navegador): hay una regla global `[hidden]{display:none}`.
 - Chrome headless en macOS clamp la ventana a 500px mínimo: para ver 390px de verdad,
   cargar la página dentro de un `<iframe>` de ese ancho y capturar este.
+- Chrome DevTools (MCP): `resize_page` también clamp la ventana (el 375px salió a ~550px);
+  usar `emulate` con `viewport: "375x812x2,mobile,touch"` para móvil real.
+- Al abrir `file://` con Chrome DevTools aparece un error de consola "Unsafe attempt to
+  load URL ... unique security origins": es artefacto de la automatización, no del
+  proyecto (no rompe nada; con `open` normal no aparece).
 
 ## Próximos pasos
 - (vacío por ahora)
