@@ -8,6 +8,8 @@ aporte.
 - Diseño con identidad "cuaderno de estudio": fondo de papel cuadriculado, bloque de
   resaltador amarillo para la racha, botón azul bolígrafo, serifa display + sans UI.
 - Datos en localStorage (clave `diario-estudio-sesiones`), sin backend ni dependencias.
+- Spec `specs/001-heat-map/spec.md` (mapa de calor, 12 semanas) revisada por QA:
+ 21 observaciones resueltas, sin dudas abiertas; lista para el plan de implementación.
 
 ## Decisiones (y por qué)
 - Sin backend ni dependencias: cualquiera debe poder abrirlo con doble clic.
@@ -35,4 +37,5 @@ aporte.
   proyecto (no rompe nada; con `open` normal no aparece).
 
 ## Próximos pasos
-- (vacío por ahora)
+- Plan de implementación de la spec 001 (mapa de calor), ya revisada y sin dudas
+  abiertas.
