@@ -9,6 +9,9 @@ programar.
 (`type="module"`), `fetch` a archivos locales ni nada que requiera servidor.
 ## Convenciones
 - Textos de la interfaz en español.
+- Identidad visual "cuaderno": papel cuadriculado, tinta grafito, resaltador amarillo
+  (#ffe54c) como único acento y bolígrafo azul (#2b50a2); serifa para títulos y
+  números, sans del sistema para el resto. Usa los tokens de `:root`, no colores sueltos.
 - Código simple, nombres descriptivos y comentarios solo donde aporten.
 - Diseño limpio y responsive; cualquier pantalla nueva debe verse bien en el móvil.
 ## Datos

@@ -5,6 +5,8 @@ aporte.
 ## Estado actual
 - v1 funcionando: registrar sesiones (fecha, tema, minutos), racha actual, mejor racha,
   minutos de la semana, días del mes y lista de sesiones (de más reciente a más antigua).
+- Diseño con identidad "cuaderno de estudio": fondo de papel cuadriculado, bloque de
+  resaltador amarillo para la racha, botón azul bolígrafo, serifa display + sans UI.
 - Datos en localStorage (clave `diario-estudio-sesiones`), sin backend ni dependencias.
 
 ## Decisiones (y por qué)
@@ -22,6 +24,10 @@ aporte.
 ## Aprendizajes y errores a evitar
 - Al probar la lógica en node, usar helpers explícitos de fecha (hace N días / dentro
   de N días): con un signo invertido la prueba simula fallos que no existen.
+- `[hidden]` no oculta un elemento si una clase le da `display:flex` (las reglas del
+  autor ganan a las del navegador): hay una regla global `[hidden]{display:none}`.
+- Chrome headless en macOS clamp la ventana a 500px mínimo: para ver 390px de verdad,
+  cargar la página dentro de un `<iframe>` de ese ancho y capturar este.
 
 ## Próximos pasos
 - (vacío por ahora)
