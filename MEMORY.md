@@ -8,8 +8,8 @@ aporte.
 - Diseño con identidad "cuaderno de estudio": fondo de papel cuadriculado, bloque de
   resaltador amarillo para la racha, botón azul bolígrafo, serifa display + sans UI.
 - Datos en localStorage (clave `diario-estudio-sesiones`), sin backend ni dependencias.
-- Mapa de calor (spec 001) implementado y verificado: lógica pura en `heat-map.js`,
-  sección nueva en la página y 23 tests con `node --test` en verde.
+- Mapa de calor (spec 001) implementado; auditoría RF por RF el 12 oct: todo cumple
+  (23 tests verdes + DevTools móvil); lógica pura en `heat-map.js` y sección en la página.
 
 ## Decisiones (y por qué)
 - Sin backend ni dependencias: cualquiera debe poder abrirlo con doble clic.
