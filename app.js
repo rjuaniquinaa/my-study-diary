@@ -171,6 +171,40 @@ const monthDays = document.getElementById("month-days");
 const monthUnit = document.getElementById("month-unit");
 const list = document.getElementById("session-list");
 const emptyMessage = document.getElementById("empty-message");
+const heatMap = document.getElementById("heat-map");
+const hmGrid = document.getElementById("hm-grid");
+const hmDetail = document.getElementById("hm-detail");
+
+// --- Mapa de calor ---
+
+// Texto del detalle de una celda: "9 oct 2026 — 60 min". formatDate ya
+// fija el mes en español aunque el navegador esté en otro idioma.
+function heatDetailText(cell) {
+  return `${formatDate(cell.date)} — ${cell.minutes} min`;
+}
+
+// Una celda coloreada es un <button> (con foco y teclado de regalo) con
+// su texto en aria-label; una celda vacía es un <div> sin foco, porque
+// no hay nada que mostrar en ella.
+function createHeatCell(cell) {
+  if (cell.tone === 0) {
+    const empty = document.createElement("div");
+    empty.className = "hm-cell";
+    return empty;
+  }
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `hm-cell hm-tone-${cell.tone}`;
+  button.setAttribute("aria-label", heatDetailText(cell));
+  return button;
+}
+
+// Muestra el detalle bajo la retícula si el objetivo es una celda
+// coloreada; las vacías no muestran nada.
+function showHeatDetail(target) {
+  if (target.tagName !== "BUTTON") return;
+  hmDetail.textContent = target.getAttribute("aria-label");
+}
 
 // --- Pintado ---
 
@@ -197,6 +231,18 @@ function render() {
   const monthlyDays = calculateMonthlyStudyDays(sessions);
   monthDays.textContent = monthlyDays;
   monthUnit.textContent = monthlyDays === 1 ? "día estudiado" : "días estudiados";
+
+  // Mapa de calor: oculto mientras no haya ninguna sesión
+  heatMap.hidden = sessions.length === 0;
+  hmDetail.textContent = "";
+  hmGrid.innerHTML = "";
+
+  if (sessions.length > 0) {
+    const cells = getHeatMapCells(sessions, new Date());
+    for (const cell of cells) {
+      hmGrid.appendChild(createHeatCell(cell));
+    }
+  }
 
   // Lista: de la sesión más reciente a la más antigua
   const sorted = [...sessions].sort((a, b) => {
@@ -260,6 +306,35 @@ form.addEventListener("submit", function (event) {
   form.reset();
   dateInput.value = todayString();
   render();
+});
+
+// Detalle del mapa: cursor, toque y teclado sobre las celdas coloreadas.
+// Al salir del mapa, tocar fuera o salir el foco, el detalle desaparece.
+// Sin temporizadores: nunca se oculta solo.
+hmGrid.addEventListener("mouseover", function (event) {
+  showHeatDetail(event.target);
+});
+
+hmGrid.addEventListener("click", function (event) {
+  showHeatDetail(event.target);
+});
+
+hmGrid.addEventListener("focusin", function (event) {
+  showHeatDetail(event.target);
+});
+
+hmGrid.addEventListener("focusout", function () {
+  hmDetail.textContent = "";
+});
+
+hmGrid.addEventListener("mouseleave", function () {
+  hmDetail.textContent = "";
+});
+
+document.addEventListener("click", function (event) {
+  if (!event.target.closest("#heat-map")) {
+    hmDetail.textContent = "";
+  }
 });
 
 // --- Arranque ---

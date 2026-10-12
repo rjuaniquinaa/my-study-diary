@@ -53,6 +53,18 @@
       </section>
     </div>
 
+    <section class="card heat-map" id="heat-map" hidden>
+      <h2>Últimas 12 semanas</h2>
+      <div class="hm-grid" id="hm-grid"></div>
+      <p class="hm-detail" id="hm-detail"></p>
+      <p class="hm-legend">
+        <span class="hm-swatch hm-tone-1" aria-hidden="true"></span>
+        <span class="hm-swatch hm-tone-2" aria-hidden="true"></span>
+        <span class="hm-swatch hm-tone-3" aria-hidden="true"></span>
+        <span>menos → más minutos</span>
+      </p>
+    </section>
+
     <section class="card">
       <h2>Nueva sesión</h2>
       <form id="session-form">
@@ -79,6 +91,7 @@
     </section>
   </main>
 
+  <script src="heat-map.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -8,8 +8,8 @@ aporte.
 - Diseño con identidad "cuaderno de estudio": fondo de papel cuadriculado, bloque de
   resaltador amarillo para la racha, botón azul bolígrafo, serifa display + sans UI.
 - Datos en localStorage (clave `diario-estudio-sesiones`), sin backend ni dependencias.
-- Spec `specs/001-heat-map/spec.md` (mapa de calor, 12 semanas) revisada por QA:
- 21 observaciones resueltas, sin dudas abiertas; lista para el plan de implementación.
+- Mapa de calor (spec 001) implementado y verificado: lógica pura en `heat-map.js`,
+  sección nueva en la página y 23 tests con `node --test` en verde.
 
 ## Decisiones (y por qué)
 - Sin backend ni dependencias: cualquiera debe poder abrirlo con doble clic.
@@ -22,6 +22,10 @@ aporte.
   render: mismas reglas que las rachas y ningún dato nuevo en localStorage.
 - Días del mes = días únicos con sesión con el prefijo "AAAA-MM" del mes actual;
   comparar texto local evita por completo Date/UTC y excluye futuras.
+- Mapa de calor: celdas derivadas en cada render (nada nuevo en localStorage);
+  coloreadas como `<button>` (teclado y foco gratis), vacías como `<div>` sin foco.
+- Ayudantes de fecha duplicados en `heat-map.js` (decisión D3 del plan): la lógica se
+  prueba en solitario sin tocar app.js; copias idénticas, ambas con tests.
 
 ## Aprendizajes y errores a evitar
 - Al probar la lógica en node, usar helpers explícitos de fecha (hace N días / dentro
@@ -35,7 +39,11 @@ aporte.
 - Al abrir `file://` con Chrome DevTools aparece un error de consola "Unsafe attempt to
   load URL ... unique security origins": es artefacto de la automatización, no del
   proyecto (no rompe nada; con `open` normal no aparece).
+- Los estilos globales de `button` se comen las celdas del mapa: hay que acotarlos al
+  formulario (`#session-form button`); ojo, el `button:hover` global ganaría por
+  especificidad a una clase simple de celda.
 
 ## Próximos pasos
-- Plan de implementación de la spec 001 (mapa de calor), ya revisada y sin dudas
-  abiertas.
+- Spec 001 completa (T1–T14, tasks.md). Punto abierto para el usuario: confirmar si
+  las celdas de 22,3 px a 375 px resultan cómodas de tocar (la spec prohíbe scroll
+  por encima de 375 px; si no comodan, toca decidir un cambio en la spec).
